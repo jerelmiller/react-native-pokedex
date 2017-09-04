@@ -1,8 +1,15 @@
 import React from 'react'
-import { StyleSheet, Text, ScrollView } from 'react-native'
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  ScrollView
+} from 'react-native'
+import { gql, graphql } from 'react-apollo'
 
-const PokemonList = () => (
+const PokemonList = ({ data: { loading, pokemons }}) => (
   <ScrollView style={ styles.container }>
+    <ActivityIndicator animating={ loading } size='large' />
     <Text>List view</Text>
   </ScrollView>
 )
@@ -14,4 +21,11 @@ const styles = StyleSheet.create({
   }
 })
 
-export default PokemonList
+export default graphql(gql`
+  query {
+    pokemons {
+      id
+      name
+    }
+  }
+`)(PokemonList)
