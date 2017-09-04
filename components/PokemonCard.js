@@ -6,11 +6,17 @@ import themes from '../lib/themes'
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#4CAF50',
-    padding: 10
+    padding: 15,
+    borderColor: 'white',
+    borderWidth: 1
   },
   image: {
     height: 100,
     width: 100
+  },
+  flexContainer: {
+    flex: 1,
+    alignItems: 'center'
   }
 })
 
@@ -27,13 +33,15 @@ const textTheme = type => ({
 
 const PokemonCard = ({ pokemon, style }) => (
   <View style={ [styles.container, style, containerTheme(pokemon.types[0])] }>
-    <Image
-      style={ styles.image }
-      source={{ uri: pokemon.image }}
-    />
-    <Text style={ textTheme(pokemon.types[0]) }>
-      { `${pokemon.id} - ${pokemon.name}` }
-    </Text>
+    <View style={ styles.flexContainer }>
+      <Image
+        style={ styles.image }
+        source={{ uri: pokemon.image }}
+      />
+      <Text style={ textTheme(pokemon.types[0]) }>
+        { `${pokemon.id} - ${pokemon.name}` }
+      </Text>
+    </View>
   </View>
 )
 
