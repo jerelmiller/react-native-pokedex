@@ -5,7 +5,12 @@ import PokemonList from './screens/PokemonList'
 import withApollo from './components/withApollo'
 
 const App = StackNavigator({
-  Home: { screen: withApollo(PokemonList) }
+  Home: {
+    screen: withApollo(PokemonList),
+    navigationOptions: {
+      title: 'Pokemon'
+    }
+  }
 })
 
 export default App
