@@ -9,14 +9,16 @@ import {
 import { gql, graphql } from 'react-apollo'
 
 const PokemonList = ({ data: { loading, pokemons = [] }}) => (
-  <ScrollView style={ styles.container }>
+  <View style={ styles.container }>
     <ActivityIndicator animating={ loading } size='large' />
-    { pokemons.map(pokemon => (
-      <View key={ pokemon.id }>
-        <Text>{ `${pokemon.id} - ${pokemon.name}` }</Text>
-      </View>
-    ))}
-  </ScrollView>
+    <ScrollView>
+      { pokemons.map(pokemon => (
+        <View key={ pokemon.id }>
+          <Text>{ `${pokemon.id} - ${pokemon.name}` }</Text>
+        </View>
+      ))}
+    </ScrollView>
+  </View>
 )
 
 const styles = StyleSheet.create({
@@ -30,6 +32,7 @@ export default graphql(gql`
     pokemons {
       id
       name
+      number
     }
   }
 `)(PokemonList)
