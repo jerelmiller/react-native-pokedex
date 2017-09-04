@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { gql } from 'react-apollo'
+import themes from '../lib/themes'
 
 const styles = StyleSheet.create({
   container: {
@@ -13,8 +14,15 @@ const styles = StyleSheet.create({
   }
 })
 
+const themePrimary = type => themes[type].primary
+const themeText = type => themes[type].text
+
+const containerTheme = type => ({
+  backgroundColor: themePrimary(type)
+})
+
 const PokemonCard = ({ pokemon, style }) => (
-  <View style={ [styles.container, style] }>
+  <View style={ [styles.container, style, containerTheme(pokemon.types[0])] }>
     <Image
       style={ styles.image }
       source={{ uri: pokemon.image }}
@@ -29,6 +37,7 @@ PokemonCard.fragments = {
       id
       name
       image
+      types
     }
   `
 }
