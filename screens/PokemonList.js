@@ -29,8 +29,8 @@ export default graphql(gql`
   query {
     pokemons {
       id
-      name
-      number
+      ...PokemonCard
     }
   }
+  ${PokemonCard.fragments.pokemon}
 `)(PokemonList)
