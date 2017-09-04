@@ -1,15 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { ApolloProvider } from 'react-apollo'
+import { StackNavigator } from 'react-navigation'
 import PokemonList from './screens/PokemonList'
-import client from './config/apollo'
+import withApollo from './components/withApollo'
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <ApolloProvider client={ client }>
-        <PokemonList />
-      </ApolloProvider>
-    )
-  }
-}
+const App = StackNavigator({
+  Home: { screen: withApollo(PokemonList) }
+})
+
+export default App
