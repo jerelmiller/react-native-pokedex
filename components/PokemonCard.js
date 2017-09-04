@@ -38,19 +38,19 @@ const textTheme = type => ({
 })
 
 const PokemonCard = ({ pokemon, style, onPress }) => (
-  <TouchableOpacity onPress={ onPress }>
-    <View style={ [styles.container, style, containerTheme(pokemon.types[0])] }>
-      <View style={ styles.flexContainer }>
+  <View style={ [styles.container, style, containerTheme(pokemon.types[0])] }>
+    <View style={ styles.flexContainer }>
+      <TouchableOpacity onPress={ onPress }>
         <Image
           style={ styles.image }
           source={{ uri: pokemon.image }}
         />
-        <Text style={ textTheme(pokemon.types[0]) }>
-          { `${pokemon.id} - ${pokemon.name}` }
-        </Text>
-      </View>
+      </TouchableOpacity>
+      <Text style={ textTheme(pokemon.types[0]) }>
+        { `${pokemon.id} - ${pokemon.name}` }
+      </Text>
     </View>
-  </TouchableOpacity>
+  </View>
 )
 
 PokemonCard.fragments = {
