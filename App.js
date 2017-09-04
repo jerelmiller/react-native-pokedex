@@ -1,16 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import {
-  ApolloClient,
-  ApolloProvider,
-  createNetworkInterface
-} from 'react-apollo'
-
-const networkInterface = createNetworkInterface({
-  uri: 'https://phoenix-pokedex.herokuapp.com'
-})
-
-const client = new ApolloClient({ networkInterface })
+import { ApolloProvider } from 'react-apollo'
+import client from './config/apollo'
 
 export default class App extends React.Component {
   render() {
