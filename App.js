@@ -8,7 +8,7 @@ const App = StackNavigator({
   Home: {
     screen: withApollo(PokemonList),
     navigationOptions: {
-      title: 'Pokemon'
+      title: 'Pokedex'
     }
   }
 })
