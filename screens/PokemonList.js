@@ -13,7 +13,11 @@ const PokemonList = ({ data: { loading, pokemons = [] }}) => (
     { loading && <ActivityIndicator animating={ loading } size='large' /> }
     <ScrollView contentContainerStyle={ styles.scrollView }>
       { pokemons.map(pokemon => (
-        <PokemonCard key={ pokemon.id } pokemon={ pokemon } />
+        <PokemonCard
+          key={ pokemon.id }
+          pokemon={ pokemon }
+          style={{ width: '50%' }}
+        />
       ))}
     </ScrollView>
   </View>
