@@ -10,7 +10,7 @@ import PokemonCard from '../components/PokemonCard'
 
 const PokemonList = ({ data: { loading, pokemons = [] }}) => (
   <View style={ styles.container }>
-    <ActivityIndicator animating={ loading } size='large' />
+    { loading && <ActivityIndicator animating={ loading } size='large' /> }
     <ScrollView>
       { pokemons.map(pokemon => (
         <PokemonCard key={ pokemon.id } pokemon={ pokemon } />
