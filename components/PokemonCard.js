@@ -1,9 +1,16 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { gql } from 'react-apollo'
 
-const PokemonCard = ({ pokemon }) => (
-  <View>
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#4CAF50',
+    padding: 10
+  }
+})
+
+const PokemonCard = ({ pokemon, style }) => (
+  <View style={ [styles.container, style] }>
     <Text>{ `${pokemon.id} - ${pokemon.name}` }</Text>
   </View>
 )
