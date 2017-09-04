@@ -21,13 +21,19 @@ const containerTheme = type => ({
   backgroundColor: themePrimary(type)
 })
 
+const textTheme = type => ({
+  color: themeText(type)
+})
+
 const PokemonCard = ({ pokemon, style }) => (
   <View style={ [styles.container, style, containerTheme(pokemon.types[0])] }>
     <Image
       style={ styles.image }
       source={{ uri: pokemon.image }}
     />
-    <Text>{ `${pokemon.id} - ${pokemon.name}` }</Text>
+    <Text style={ textTheme(pokemon.types[0]) }>
+      { `${pokemon.id} - ${pokemon.name}` }
+    </Text>
   </View>
 )
 
