@@ -2,20 +2,18 @@ import React from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
-  Text,
   ScrollView,
   View
 } from 'react-native'
 import { gql, graphql } from 'react-apollo'
+import PokemonCard from '../components/PokemonCard'
 
 const PokemonList = ({ data: { loading, pokemons = [] }}) => (
   <View style={ styles.container }>
     <ActivityIndicator animating={ loading } size='large' />
     <ScrollView>
       { pokemons.map(pokemon => (
-        <View key={ pokemon.id }>
-          <Text>{ `${pokemon.id} - ${pokemon.name}` }</Text>
-        </View>
+        <PokemonCard key={ pokemon.id } pokemon={ pokemon } />
       ))}
     </ScrollView>
   </View>
