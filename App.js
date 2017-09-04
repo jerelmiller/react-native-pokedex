@@ -18,9 +18,13 @@ const App = StackNavigator({
   },
   Detail: {
     screen: withApollo(PokemonDetail),
-    navigationOptions: {
-      title: 'The pokemon'
-    }
+    navigationOptions: ({ navigation: { state: { params }}}) => ({
+      title: params.pokemon.name,
+      headerStyle: {
+        backgroundColor: themes[params.pokemon.types[0]].primary,
+      },
+      headerTintColor: themes[params.pokemon.types[0]].text
+    })
   }
 })
 
