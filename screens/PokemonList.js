@@ -8,7 +8,7 @@ import {
 import { gql, graphql } from 'react-apollo'
 import PokemonCard from '../components/PokemonCard'
 
-const PokemonList = ({ data: { loading, pokemons = [] }}) => (
+const PokemonList = ({ data: { loading, pokemons = [] }, navigation }) => (
   <View style={ styles.container }>
     { loading && <ActivityIndicator animating={ loading } size='large' /> }
     <ScrollView contentContainerStyle={ styles.scrollView }>
@@ -16,6 +16,7 @@ const PokemonList = ({ data: { loading, pokemons = [] }}) => (
         <PokemonCard
           key={ pokemon.id }
           pokemon={ pokemon }
+          onPress={ () => navigation.navigate('Detail', { pokemon }) }
           style={{ width: '50%' }}
         />
       ))}

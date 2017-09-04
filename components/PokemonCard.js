@@ -1,5 +1,11 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import { gql } from 'react-apollo'
 import themes from '../lib/themes'
 
@@ -31,18 +37,20 @@ const textTheme = type => ({
   color: themeText(type)
 })
 
-const PokemonCard = ({ pokemon, style }) => (
-  <View style={ [styles.container, style, containerTheme(pokemon.types[0])] }>
-    <View style={ styles.flexContainer }>
-      <Image
-        style={ styles.image }
-        source={{ uri: pokemon.image }}
-      />
-      <Text style={ textTheme(pokemon.types[0]) }>
-        { `${pokemon.id} - ${pokemon.name}` }
-      </Text>
+const PokemonCard = ({ pokemon, style, onPress }) => (
+  <TouchableOpacity onPress={ onPress }>
+    <View style={ [styles.container, style, containerTheme(pokemon.types[0])] }>
+      <View style={ styles.flexContainer }>
+        <Image
+          style={ styles.image }
+          source={{ uri: pokemon.image }}
+        />
+        <Text style={ textTheme(pokemon.types[0]) }>
+          { `${pokemon.id} - ${pokemon.name}` }
+        </Text>
+      </View>
     </View>
-  </View>
+  </TouchableOpacity>
 )
 
 PokemonCard.fragments = {
