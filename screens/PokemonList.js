@@ -11,7 +11,7 @@ import PokemonCard from '../components/PokemonCard'
 const PokemonList = ({ data: { loading, pokemons = [] }}) => (
   <View style={ styles.container }>
     { loading && <ActivityIndicator animating={ loading } size='large' /> }
-    <ScrollView>
+    <ScrollView contentContainerStyle={ styles.scrollView }>
       { pokemons.map(pokemon => (
         <PokemonCard key={ pokemon.id } pokemon={ pokemon } />
       ))}
@@ -22,6 +22,10 @@ const PokemonList = ({ data: { loading, pokemons = [] }}) => (
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  scrollView: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
   }
 })
 
