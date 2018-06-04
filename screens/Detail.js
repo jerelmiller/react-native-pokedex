@@ -2,6 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import ScreenLoader from '../components/ScreenLoader'
 import Pokeball from '../components/Pokeball'
+import PokemonCard from '../components/PokemonCard'
 import styled, { ThemeProvider } from 'styled-components'
 import themes from '../lib/themes'
 import { Query } from 'react-apollo'
@@ -14,6 +15,10 @@ const BannerContainer = styled.View`
   background-color: ${({ theme }) => theme.primary};
 `
 
+const EvolutionContainer = styled.View`
+  flex-direction: row;
+`
+
 const Banner = ({ children }) => (
   <BannerContainer>
     <BannerText>{children}</BannerText>
@@ -23,6 +28,7 @@ const Banner = ({ children }) => (
 const BannerText = styled.Text`
   text-align: center;
   font-size: 16px;
+  font-weight: bold;
   color: ${({ theme }) => theme.text};
 `
 
@@ -36,8 +42,11 @@ const PokemonImage = styled.Image`
   width: 200px;
 `
 
-const ImageContainer = styled.View`
+const Box = styled.View`
   padding: 10px;
+`
+
+const ImageContainer = Box.extend`
   align-items: center;
 
   background-color: ${({ theme }) => rgba(theme.primary, 0.3)};
@@ -70,9 +79,12 @@ const PokemonDetail = ({ navigation }) => (
             id
             number
             types
+            ...PokemonCard
           }
         }
       }
+
+      ${PokemonCard.fragments.pokemon}
     `}
     variables={{ id: navigation.state.params.pokemon.id }}
   >
@@ -80,7 +92,9 @@ const PokemonDetail = ({ navigation }) => (
       loading ? (
         <ScreenLoader loading={true} />
       ) : (
-        <ThemeProvider theme={theme => theme[pokemon.types[0]]}>
+        <ThemeProvider
+          theme={theme => ({ ...theme[pokemon.types[0]], ...theme })}
+        >
           <Container>
             <ImageContainer>
               <Pokeball size="30px" style={{ alignSelf: 'flex-start' }} />
@@ -88,6 +102,17 @@ const PokemonDetail = ({ navigation }) => (
               <Number type={pokemon.types[0]}>{pokemon.number}</Number>
             </ImageContainer>
             <Banner>{pokemon.types.join(' / ').toUpperCase()}</Banner>
+            <Box />
+            <Banner>EVOLUTIONS</Banner>
+            <EvolutionContainer>
+              {pokemon.evolutions.map(evolution => (
+                <PokemonCard
+                  key={evolution.id}
+                  pokemon={evolution}
+                  style={{ flex: 1 }}
+                />
+              ))}
+            </EvolutionContainer>
           </Container>
         </ThemeProvider>
       )

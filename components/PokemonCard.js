@@ -7,7 +7,6 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
 
 const Container = styled.View`
   align-items: center;
-  background-color: #4caf50;
   padding: 10px;
   border-color: white;
   border-width: 1px;
