@@ -2,6 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import styled from 'styled-components'
 import PokemonCard from '../components/PokemonCard'
+import themes from '../lib/themes'
 import { ActivityIndicator, StyleSheet, ScrollView, View } from 'react-native'
 import { Query } from 'react-apollo'
 
@@ -41,6 +42,14 @@ const PokemonList = ({ navigation }) => (
     )}
   </Query>
 )
+
+PokemonList.navigationOptions = {
+  title: 'Pokedex',
+  headerStyle: {
+    backgroundColor: themes.app.primary
+  },
+  headerTintColor: themes.app.text
+}
 
 const styles = StyleSheet.create({
   scrollView: {

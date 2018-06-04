@@ -13,16 +13,7 @@ YellowBox.ignoreWarnings([
 ])
 
 const App = createStackNavigator({
-  Home: {
-    screen: PokemonList,
-    navigationOptions: {
-      title: 'Pokedex',
-      headerStyle: {
-        backgroundColor: themes.app.primary
-      },
-      headerTintColor: themes.app.text
-    }
-  },
+  Home: PokemonList,
   Detail: {
     screen: PokemonDetail,
     navigationOptions: ({
