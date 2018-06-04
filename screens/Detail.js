@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import ScreenLoader from '../components/ScreenLoader'
 import Pokeball from '../components/Pokeball'
@@ -6,7 +6,7 @@ import PokemonCard from '../components/PokemonCard'
 import styled, { ThemeProvider } from 'styled-components'
 import themes from '../lib/themes'
 import { Query } from 'react-apollo'
-import { Dimensions, SafeAreaView, View, Text } from 'react-native'
+import { Animated, Dimensions, SafeAreaView, View, Text } from 'react-native'
 import { rgba } from 'polished'
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window')
@@ -78,17 +78,33 @@ const StatName = styled.Text`
   text-align: right;
 `
 
-const StatAmount = styled.View`
-  width: ${({ amount }) => (amount / MAX_STAT_VALUE) * STAT_WIDTH}px;
+const StatAmount = styled(Animated.View)`
   background-color: ${({ theme }) => theme.primary};
 `
 
-const Stat = ({ name, amount }) => (
-  <StatContainer>
-    <StatName>{name}</StatName>
-    <StatAmount amount={amount} />
-  </StatContainer>
-)
+class Stat extends Component {
+  animatedWidth = new Animated.Value(0)
+
+  componentDidMount() {
+    const { amount } = this.props
+
+    Animated.spring(this.animatedWidth, {
+      toValue: (amount / MAX_STAT_VALUE) * STAT_WIDTH
+    }).start()
+  }
+
+  render() {
+    const { name } = this.props
+    const animatedStyle = { width: this.animatedWidth }
+
+    return (
+      <StatContainer>
+        <StatName>{name}</StatName>
+        <StatAmount style={animatedStyle} />
+      </StatContainer>
+    )
+  }
+}
 
 const SafeView = styled.SafeAreaView`
   flex: 1;
@@ -158,7 +174,7 @@ const PokemonDetail = ({ navigation }) => (
                     pokemon={evolution}
                     style={{ flex: 1 }}
                     onPress={() =>
-                      navigation.push('Detail', { pokemon: evolution })
+                      navigation.replace('Detail', { pokemon: evolution })
                     }
                   />
                 ))}
