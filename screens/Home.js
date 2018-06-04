@@ -42,7 +42,7 @@ const PokemonList = ({ navigation }) => (
                 key={pokemon.id}
                 pokemon={pokemon}
                 onPress={() => navigation.navigate('Detail', { pokemon })}
-                style={{ width: '50%' }}
+                style={{ width: `${100 / 2}%` }}
               />
             ))}
           </ScrollView>
