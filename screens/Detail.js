@@ -1,9 +1,24 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import ScreenLoader from '../components/ScreenLoader'
+import styled from 'styled-components'
 import themes from '../lib/themes'
 import { Query } from 'react-apollo'
 import { View, Text } from 'react-native'
+
+const Container = styled.View`
+  flex: 1;
+`
+
+const PokemonImage = styled.Image`
+  margin-vertical: 10px;
+  height: 200px;
+  width: 200px;
+`
+
+const ImageContainer = styled.View`
+  align-items: center;
+`
 
 const PokemonDetail = ({ navigation }) => (
   <Query
@@ -35,9 +50,12 @@ const PokemonDetail = ({ navigation }) => (
       loading ? (
         <ScreenLoader loading={true} />
       ) : (
-        <View>
+        <Container>
+          <ImageContainer>
+            <PokemonImage source={{ uri: pokemon.image }} />
+          </ImageContainer>
           <Text>Pokemon</Text>
-        </View>
+        </Container>
       )
     }
   </Query>
