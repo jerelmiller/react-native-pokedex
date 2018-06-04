@@ -5,6 +5,7 @@ import PokemonDetail from './screens/PokemonDetail'
 import themes from './lib/themes'
 import { ApolloProvider } from 'react-apollo'
 import { StyleSheet, Text, View, YellowBox } from 'react-native'
+import { ThemeProvider } from 'styled-components'
 import { createStackNavigator } from 'react-navigation'
 
 YellowBox.ignoreWarnings([
@@ -32,6 +33,8 @@ const App = createStackNavigator({
 
 export default () => (
   <ApolloProvider client={client}>
-    <App />
+    <ThemeProvider theme={themes}>
+      <App />
+    </ThemeProvider>
   </ApolloProvider>
 )
