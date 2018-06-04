@@ -1,12 +1,7 @@
-import {
-  ApolloClient,
-  createNetworkInterface
-} from 'react-apollo'
+import ApolloClient from 'apollo-boost'
 
-const networkInterface = createNetworkInterface({
+const client = new ApolloClient({
   uri: 'https://phoenix-pokedex.herokuapp.com'
 })
-
-const client = new ApolloClient({ networkInterface })
 
 export default client
