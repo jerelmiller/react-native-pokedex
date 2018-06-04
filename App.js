@@ -1,11 +1,16 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { createStackNavigator } from 'react-navigation'
 import client from './config/apollo'
 import PokemonList from './screens/PokemonList'
 import PokemonDetail from './screens/PokemonDetail'
 import themes from './lib/themes'
 import { ApolloProvider } from 'react-apollo'
+import { StyleSheet, Text, View, YellowBox } from 'react-native'
+import { createStackNavigator } from 'react-navigation'
+
+YellowBox.ignoreWarnings([
+  'Warning: isMounted(...) is deprecated',
+  'Module RCTImageLoader'
+])
 
 const App = createStackNavigator({
   Home: {
