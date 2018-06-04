@@ -1,6 +1,7 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import ScreenLoader from '../components/ScreenLoader'
+import Pokeball from '../components/Pokeball'
 import styled from 'styled-components'
 import themes from '../lib/themes'
 import { Query } from 'react-apollo'
@@ -17,6 +18,7 @@ const PokemonImage = styled.Image`
 `
 
 const ImageContainer = styled.View`
+  padding: 10px;
   align-items: center;
 `
 
@@ -52,9 +54,9 @@ const PokemonDetail = ({ navigation }) => (
       ) : (
         <Container>
           <ImageContainer>
+            <Pokeball size="30px" style={{ alignSelf: 'flex-start' }} />
             <PokemonImage source={{ uri: pokemon.image }} />
           </ImageContainer>
-          <Text>Pokemon</Text>
         </Container>
       )
     }
