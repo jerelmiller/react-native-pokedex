@@ -1,16 +1,9 @@
 import React from 'react'
+import Pokeball from '../components/Pokeball'
 import styled from 'styled-components'
 import gql from 'graphql-tag'
 import themes from '../lib/themes'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-
-const Pokeball = styled.Image.attrs({
-  source: require('../images/pokeball.png')
-})`
-  width: 20px;
-  height: 20px;
-  align-self: flex-start;
-`
 
 const Container = styled.View`
   align-items: center;
@@ -37,7 +30,7 @@ const Name = styled.Text`
 
 const PokemonCard = ({ pokemon, style, onPress }) => (
   <Container type={pokemon.types[0]} style={style}>
-    <Pokeball />
+    <Pokeball size="20px" style={{ alignSelf: 'flex-start' }} />
     <TouchableOpacity onPress={onPress}>
       <PokemonImage source={{ uri: pokemon.image }} />
     </TouchableOpacity>
