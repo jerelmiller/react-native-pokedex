@@ -3,22 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "babel-preset-react-native-stage-0": "^1.0.1",
+    "babel-jest": "23.0.1",
+    "babel-preset-react-native": "4.0.0",
     "react-test-renderer": "16.4.0"
   },
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "test": "node node_modules/jest/bin/jest.js --watch"
+    "ios": "react-native run-ios --simulator=\"iPhone X\"",
+    "test": "jest"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "react-native"
   },
   "dependencies": {
     "react": "16.4.0",
     "react-apollo": "^1.4.15",
-    "react-native": "^0.55",
+    "react-native": "0.55.4",
     "react-navigation": "^1.0.0-beta.11"
   }
 }
