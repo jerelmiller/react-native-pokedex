@@ -1,11 +1,16 @@
 import React from 'react'
 import { ActivityIndicator, StyleSheet, ScrollView, View } from 'react-native'
 import gql from 'graphql-tag'
+import styled from 'styled-components'
 import { graphql } from 'react-apollo'
 import PokemonCard from '../components/PokemonCard'
 
+const Container = styled.View`
+  flex: 1;
+`
+
 const PokemonList = ({ data: { loading, pokemons = [] }, navigation }) => (
-  <View style={styles.container}>
+  <Container>
     {loading && <ActivityIndicator animating={loading} size="large" />}
     <ScrollView contentContainerStyle={styles.scrollView}>
       {pokemons.map(pokemon => (
@@ -17,13 +22,10 @@ const PokemonList = ({ data: { loading, pokemons = [] }, navigation }) => (
         />
       ))}
     </ScrollView>
-  </View>
+  </Container>
 )
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   scrollView: {
     flexWrap: 'wrap',
     flexDirection: 'row'
