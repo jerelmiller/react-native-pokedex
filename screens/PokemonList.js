@@ -23,17 +23,20 @@ const PokemonList = ({ navigation }) => (
   >
     {({ loading, data: { pokemons } }) => (
       <Container>
-        {loading && <ActivityIndicator animating={loading} size="large" />}
-        <ScrollView contentContainerStyle={styles.scrollView}>
-          {pokemons.map(pokemon => (
-            <PokemonCard
-              key={pokemon.id}
-              pokemon={pokemon}
-              onPress={() => navigation.navigate('Detail', { pokemon })}
-              style={{ width: '50%' }}
-            />
-          ))}
-        </ScrollView>
+        {loading ? (
+          <ActivityIndicator animating={loading} size="large" />
+        ) : (
+          <ScrollView contentContainerStyle={styles.scrollView}>
+            {pokemons.map(pokemon => (
+              <PokemonCard
+                key={pokemon.id}
+                pokemon={pokemon}
+                onPress={() => navigation.navigate('Detail', { pokemon })}
+                style={{ width: '50%' }}
+              />
+            ))}
+          </ScrollView>
+        )}
       </Container>
     )}
   </Query>
