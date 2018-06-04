@@ -2,6 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import styled from 'styled-components'
 import PokemonCard from '../components/PokemonCard'
+import PokemonDetail from './PokemonDetail'
 import themes from '../lib/themes'
 import ScreenLoader from '../components/ScreenLoader'
 import { StyleSheet, ScrollView, View } from 'react-native'
@@ -27,6 +28,7 @@ const PokemonList = ({ navigation }) => (
         }
       }
       ${PokemonCard.fragments.pokemon}
+      ${PokemonDetail.fragments.pokemonHeader}
     `}
   >
     {({ loading, data: { pokemons } }) => (
