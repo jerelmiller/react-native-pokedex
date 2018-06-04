@@ -10,6 +10,12 @@ const Container = styled.View`
   flex: 1;
 `
 
+const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`
+
 const PokemonList = ({ navigation }) => (
   <Query
     query={gql`
@@ -25,7 +31,9 @@ const PokemonList = ({ navigation }) => (
     {({ loading, data: { pokemons } }) => (
       <Container>
         {loading ? (
-          <ActivityIndicator animating={loading} size="large" />
+          <LoadingContainer>
+            <ActivityIndicator animating={loading} size="large" />
+          </LoadingContainer>
         ) : (
           <ScrollView contentContainerStyle={styles.scrollView}>
             {pokemons.map(pokemon => (
