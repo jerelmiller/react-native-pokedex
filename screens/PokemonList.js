@@ -3,7 +3,8 @@ import gql from 'graphql-tag'
 import styled from 'styled-components'
 import PokemonCard from '../components/PokemonCard'
 import themes from '../lib/themes'
-import { ActivityIndicator, StyleSheet, ScrollView, View } from 'react-native'
+import ScreenLoader from '../components/ScreenLoader'
+import { StyleSheet, ScrollView, View } from 'react-native'
 import { Query } from 'react-apollo'
 
 const Container = styled.View`
@@ -31,9 +32,7 @@ const PokemonList = ({ navigation }) => (
     {({ loading, data: { pokemons } }) => (
       <Container>
         {loading ? (
-          <LoadingContainer>
-            <ActivityIndicator animating={loading} size="large" />
-          </LoadingContainer>
+          <ScreenLoader animating={loading} />
         ) : (
           <ScrollView contentContainerStyle={styles.scrollView}>
             {pokemons.map(pokemon => (
