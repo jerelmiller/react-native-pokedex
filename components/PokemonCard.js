@@ -2,9 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import gql from 'graphql-tag'
 import themes from '../lib/themes'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 
 const Container = styled.View`
+  align-items: center;
   background-color: #4caf50;
   padding: 15px;
   border-color: white;
@@ -22,29 +23,12 @@ const Name = styled.Text`
   color: ${({ type, theme }) => theme[type].text};
 `
 
-const styles = StyleSheet.create({
-  flexContainer: {
-    flex: 1,
-    alignItems: 'center'
-  }
-})
-
-const themeText = type => themes[type].text
-
-const textTheme = type => ({
-  color: themeText(type)
-})
-
 const PokemonCard = ({ pokemon, style, onPress }) => (
   <Container type={pokemon.types[0]} style={style}>
-    <View style={styles.flexContainer}>
-      <TouchableOpacity onPress={onPress}>
-        <PokemonImage source={{ uri: pokemon.image }} />
-      </TouchableOpacity>
-      <Name type={pokemon.types[0]}>{`${pokemon.number}: ${
-        pokemon.name
-      }`}</Name>
-    </View>
+    <TouchableOpacity onPress={onPress}>
+      <PokemonImage source={{ uri: pokemon.image }} />
+    </TouchableOpacity>
+    <Name type={pokemon.types[0]}>{`${pokemon.number}: ${pokemon.name}`}</Name>
   </Container>
 )
 
