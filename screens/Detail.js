@@ -11,8 +11,15 @@ const PokemonDetail = ({ navigation }) => (
       query DetailQuery($id: ID!) {
         pokemon(id: $id) {
           id
+          attack
+          defense
+          hp
           name
           image
+          specialAttack
+          specialDefense
+          speed
+          types
         }
       }
     `}
