@@ -1,15 +1,19 @@
 import React from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import styled from 'styled-components'
 import gql from 'graphql-tag'
 import themes from '../lib/themes'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+
+const Container = styled.View`
+  background-color: #4caf50;
+  padding: 15px;
+  border-color: white;
+  border-width: 1px;
+
+  background-color: ${({ type, theme }) => theme[type].primary};
+`
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#4CAF50',
-    padding: 15,
-    borderColor: 'white',
-    borderWidth: 1
-  },
   image: {
     height: 100,
     width: 100
@@ -20,19 +24,14 @@ const styles = StyleSheet.create({
   }
 })
 
-const themePrimary = type => themes[type].primary
 const themeText = type => themes[type].text
-
-const containerTheme = type => ({
-  backgroundColor: themePrimary(type)
-})
 
 const textTheme = type => ({
   color: themeText(type)
 })
 
 const PokemonCard = ({ pokemon, style, onPress }) => (
-  <View style={[styles.container, style, containerTheme(pokemon.types[0])]}>
+  <Container type={pokemon.types[0]} style={style}>
     <View style={styles.flexContainer}>
       <TouchableOpacity onPress={onPress}>
         <Image style={styles.image} source={{ uri: pokemon.image }} />
@@ -41,7 +40,7 @@ const PokemonCard = ({ pokemon, style, onPress }) => (
         {`${pokemon.id} - ${pokemon.name}`}
       </Text>
     </View>
-  </View>
+  </Container>
 )
 
 PokemonCard.fragments = {
