@@ -20,6 +20,12 @@ const PokemonDetail = ({ navigation }) => (
           specialDefense
           speed
           types
+
+          evolutions {
+            id
+            number
+            types
+          }
         }
       }
     `}
