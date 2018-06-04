@@ -1,7 +1,7 @@
 import React from 'react'
 import client from './config/apollo'
 import Home from './screens/Home'
-import PokemonDetail from './screens/PokemonDetail'
+import Detail from './screens/Detail'
 import themes from './lib/themes'
 import { ApolloProvider } from 'react-apollo'
 import { StyleSheet, Text, View, YellowBox } from 'react-native'
@@ -13,10 +13,7 @@ YellowBox.ignoreWarnings([
   'Module RCTImageLoader'
 ])
 
-const App = createStackNavigator({
-  Home,
-  Detail: PokemonDetail
-})
+const App = createStackNavigator({ Home, Detail })
 
 export default () => (
   <ApolloProvider client={client}>
