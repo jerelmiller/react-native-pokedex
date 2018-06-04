@@ -80,11 +80,13 @@ const PokemonDetail = ({ navigation }) => (
             number
             types
             ...PokemonCard
+            ...PokemonHeader_pokemon
           }
         }
       }
 
       ${PokemonCard.fragments.pokemon}
+      ${PokemonDetail.fragments.pokemonHeader}
     `}
     variables={{ id: navigation.state.params.pokemon.id }}
   >
@@ -110,6 +112,9 @@ const PokemonDetail = ({ navigation }) => (
                   key={evolution.id}
                   pokemon={evolution}
                   style={{ flex: 1 }}
+                  onPress={() =>
+                    navigation.push('Detail', { pokemon: evolution })
+                  }
                 />
               ))}
             </EvolutionContainer>
