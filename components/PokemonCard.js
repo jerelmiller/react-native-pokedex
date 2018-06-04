@@ -1,12 +1,6 @@
 import React from 'react'
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native'
-import { gql } from 'react-apollo'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import gql from 'graphql-tag'
 import themes from '../lib/themes'
 
 const styles = StyleSheet.create({
@@ -38,16 +32,13 @@ const textTheme = type => ({
 })
 
 const PokemonCard = ({ pokemon, style, onPress }) => (
-  <View style={ [styles.container, style, containerTheme(pokemon.types[0])] }>
-    <View style={ styles.flexContainer }>
-      <TouchableOpacity onPress={ onPress }>
-        <Image
-          style={ styles.image }
-          source={{ uri: pokemon.image }}
-        />
+  <View style={[styles.container, style, containerTheme(pokemon.types[0])]}>
+    <View style={styles.flexContainer}>
+      <TouchableOpacity onPress={onPress}>
+        <Image style={styles.image} source={{ uri: pokemon.image }} />
       </TouchableOpacity>
-      <Text style={ textTheme(pokemon.types[0]) }>
-        { `${pokemon.id} - ${pokemon.name}` }
+      <Text style={textTheme(pokemon.types[0])}>
+        {`${pokemon.id} - ${pokemon.name}`}
       </Text>
     </View>
   </View>

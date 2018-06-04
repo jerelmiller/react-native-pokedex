@@ -1,9 +1,9 @@
 import React from 'react'
-import { ActivityIndicator, StyleSheet, ScrollView, View } from 'react-native'
 import gql from 'graphql-tag'
 import styled from 'styled-components'
-import { Query } from 'react-apollo'
 import PokemonCard from '../components/PokemonCard'
+import { ActivityIndicator, StyleSheet, ScrollView, View } from 'react-native'
+import { Query } from 'react-apollo'
 
 const Container = styled.View`
   flex: 1;
