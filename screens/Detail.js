@@ -82,131 +82,179 @@ const StatAmount = styled(Animated.View)`
   background-color: ${({ theme }) => theme.primary};
 `
 
-class Stat extends Component {
-  animatedWidth = new Animated.Value(0)
-
-  componentDidMount() {
-    const { amount } = this.props
-
-    Animated.spring(this.animatedWidth, {
-      toValue: (amount / MAX_STAT_VALUE) * STAT_WIDTH
-    }).start()
-  }
-
-  render() {
-    const { name } = this.props
-    const animatedStyle = { width: this.animatedWidth }
-
-    return (
-      <StatContainer>
-        <StatName>{name}</StatName>
-        <StatAmount style={animatedStyle} />
-      </StatContainer>
-    )
-  }
-}
+const Stat = ({ animation, amount, name }) => (
+  <StatContainer>
+    <StatName>{name}</StatName>
+    <StatAmount
+      style={{
+        width: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, (amount / MAX_STAT_VALUE) * STAT_WIDTH]
+        })
+      }}
+    />
+  </StatContainer>
+)
 
 const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${({ theme }) => theme.primary};
 `
 
-const PokemonDetail = ({ navigation }) => (
-  <Query
-    query={gql`
-      query DetailQuery($id: ID!) {
-        pokemon(id: $id) {
-          id
-          attack
-          defense
-          hp
-          name
-          number
-          image
-          specialAttack
-          specialDefense
-          speed
-          types
-
-          evolutions {
-            id
-            number
-            types
-            ...PokemonCard
-            ...PokemonHeader_pokemon
-          }
-        }
+class PokemonDetail extends Component {
+  static fragments = {
+    pokemonHeader: gql`
+      fragment PokemonHeader_pokemon on Pokemon {
+        id
+        name
+        types
       }
-
-      ${PokemonCard.fragments.pokemon}
-      ${PokemonDetail.fragments.pokemonHeader}
-    `}
-    variables={{ id: navigation.state.params.pokemon.id }}
-  >
-    {({ loading, data: { pokemon } }) =>
-      loading ? (
-        <ScreenLoader loading={true} />
-      ) : (
-        <ThemeProvider
-          theme={theme => ({ ...theme[pokemon.types[0]], ...theme })}
-        >
-          <SafeView>
-            <Container>
-              <ImageContainer>
-                <Pokeball size="30px" style={{ alignSelf: 'flex-start' }} />
-                <PokemonImage source={{ uri: pokemon.image }} />
-                <Number type={pokemon.types[0]}>{pokemon.number}</Number>
-              </ImageContainer>
-              <Banner>{pokemon.types.join(' / ').toUpperCase()}</Banner>
-              <Box>
-                <Stat name="HP" amount={pokemon.hp} />
-                <Stat name="Attack" amount={pokemon.attack} />
-                <Stat name="Defense" amount={pokemon.defense} />
-                <Stat name="Sp. Atk" amount={pokemon.specialAttack} />
-                <Stat name="Sp. Def" amount={pokemon.specialDefense} />
-                <Stat name="Speed" amount={pokemon.speed} />
-              </Box>
-              <Banner>EVOLUTIONS</Banner>
-              <EvolutionContainer>
-                {pokemon.evolutions.map(evolution => (
-                  <PokemonCard
-                    key={evolution.id}
-                    pokemon={evolution}
-                    style={{ flex: 1 }}
-                    onPress={() =>
-                      navigation.replace('Detail', { pokemon: evolution })
-                    }
-                  />
-                ))}
-              </EvolutionContainer>
-            </Container>
-          </SafeView>
-        </ThemeProvider>
-      )
-    }
-  </Query>
-)
-
-PokemonDetail.navigationOptions = ({
-  navigation: {
-    state: { params }
+    `
   }
-}) => ({
-  title: params.pokemon.name,
-  headerStyle: {
-    backgroundColor: themes[params.pokemon.types[0]].primary
-  },
-  headerTintColor: themes[params.pokemon.types[0]].text
-})
 
-PokemonDetail.fragments = {
-  pokemonHeader: gql`
-    fragment PokemonHeader_pokemon on Pokemon {
-      id
-      name
-      types
+  static navigationOptions = ({
+    navigation: {
+      state: { params }
     }
-  `
+  }) => ({
+    title: params.pokemon.name,
+    headerStyle: {
+      backgroundColor: themes[params.pokemon.types[0]].primary
+    },
+    headerTintColor: themes[params.pokemon.types[0]].text
+  })
+
+  hpAnimation = new Animated.Value(0)
+  attackAnimation = new Animated.Value(0)
+  defenseAnimation = new Animated.Value(0)
+  spAtkAnimation = new Animated.Value(0)
+  spDefAnimation = new Animated.Value(0)
+  speedAnimation = new Animated.Value(0)
+
+  componentDidMount() {
+    const { navigation } = this.props
+
+    navigation.addListener('didFocus', () => {
+      Animated.stagger(75, [
+        Animated.parallel([
+          Animated.spring(this.speedAnimation, { toValue: 1 }),
+          Animated.spring(this.spDefAnimation, { toValue: 1 })
+        ]),
+        Animated.parallel([
+          Animated.spring(this.spAtkAnimation, { toValue: 1 }),
+          Animated.spring(this.hpAnimation, { toValue: 1 })
+        ]),
+        Animated.parallel([
+          Animated.spring(this.attackAnimation, { toValue: 1 }),
+          Animated.spring(this.defenseAnimation, { toValue: 1 })
+        ])
+      ]).start()
+    })
+  }
+
+  render() {
+    const { navigation } = this.props
+
+    return (
+      <Query
+        query={gql`
+          query DetailQuery($id: ID!) {
+            pokemon(id: $id) {
+              id
+              attack
+              defense
+              hp
+              name
+              number
+              image
+              specialAttack
+              specialDefense
+              speed
+              types
+
+              evolutions {
+                id
+                number
+                types
+                ...PokemonCard
+                ...PokemonHeader_pokemon
+              }
+            }
+          }
+
+          ${PokemonCard.fragments.pokemon}
+          ${PokemonDetail.fragments.pokemonHeader}
+        `}
+        variables={{ id: navigation.state.params.pokemon.id }}
+      >
+        {({ loading, data: { pokemon } }) =>
+          loading ? (
+            <ScreenLoader loading={true} />
+          ) : (
+            <ThemeProvider
+              theme={theme => ({ ...theme[pokemon.types[0]], ...theme })}
+            >
+              <SafeView>
+                <Container>
+                  <ImageContainer>
+                    <Pokeball size="30px" style={{ alignSelf: 'flex-start' }} />
+                    <PokemonImage source={{ uri: pokemon.image }} />
+                    <Number type={pokemon.types[0]}>{pokemon.number}</Number>
+                  </ImageContainer>
+                  <Banner>{pokemon.types.join(' / ').toUpperCase()}</Banner>
+                  <Box>
+                    <Stat
+                      animation={this.hpAnimation}
+                      name="HP"
+                      amount={pokemon.hp}
+                    />
+                    <Stat
+                      animation={this.attackAnimation}
+                      name="Attack"
+                      amount={pokemon.attack}
+                    />
+                    <Stat
+                      animation={this.defenseAnimation}
+                      name="Defense"
+                      amount={pokemon.defense}
+                    />
+                    <Stat
+                      animation={this.spAtkAnimation}
+                      name="Sp. Atk"
+                      amount={pokemon.specialAttack}
+                    />
+                    <Stat
+                      animation={this.spDefAnimation}
+                      name="Sp. Def"
+                      amount={pokemon.specialDefense}
+                    />
+                    <Stat
+                      animation={this.speedAnimation}
+                      name="Speed"
+                      amount={pokemon.speed}
+                    />
+                  </Box>
+                  <Banner>EVOLUTIONS</Banner>
+                  <EvolutionContainer>
+                    {pokemon.evolutions.map(evolution => (
+                      <PokemonCard
+                        key={evolution.id}
+                        pokemon={evolution}
+                        style={{ flex: 1 }}
+                        onPress={() =>
+                          navigation.replace('Detail', { pokemon: evolution })
+                        }
+                      />
+                    ))}
+                  </EvolutionContainer>
+                </Container>
+              </SafeView>
+            </ThemeProvider>
+          )
+        }
+      </Query>
+    )
+  }
 }
 
 export default PokemonDetail
