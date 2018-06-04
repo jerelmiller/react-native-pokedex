@@ -15,20 +15,7 @@ YellowBox.ignoreWarnings([
 
 const App = createStackNavigator({
   Home: PokemonList,
-  Detail: {
-    screen: PokemonDetail,
-    navigationOptions: ({
-      navigation: {
-        state: { params }
-      }
-    }) => ({
-      title: params.pokemon.name,
-      headerStyle: {
-        backgroundColor: themes[params.pokemon.types[0]].primary
-      },
-      headerTintColor: themes[params.pokemon.types[0]].text
-    })
-  }
+  Detail: PokemonDetail
 })
 
 export default () => (
