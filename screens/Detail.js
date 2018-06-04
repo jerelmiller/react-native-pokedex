@@ -6,8 +6,14 @@ import PokemonCard from '../components/PokemonCard'
 import styled, { ThemeProvider } from 'styled-components'
 import themes from '../lib/themes'
 import { Query } from 'react-apollo'
-import { View, Text } from 'react-native'
+import { Dimensions, SafeAreaView, View, Text } from 'react-native'
 import { rgba } from 'polished'
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window')
+const STAT_NAME_WIDTH = 70
+const MAX_STAT_VALUE = 250
+const BOX_PADDING = 20
+const STAT_WIDTH = SCREEN_WIDTH - STAT_NAME_WIDTH - 2 * BOX_PADDING
 
 const BannerContainer = styled.View`
   padding: 15px;
@@ -34,6 +40,7 @@ const BannerText = styled.Text`
 
 const Container = styled.ScrollView`
   flex: 1;
+  background-color: white;
 `
 
 const PokemonImage = styled.Image`
@@ -43,7 +50,7 @@ const PokemonImage = styled.Image`
 `
 
 const Box = styled.View`
-  padding: 10px;
+  padding: ${BOX_PADDING}px;
 `
 
 const ImageContainer = Box.extend`
@@ -56,6 +63,36 @@ const Number = styled.Text`
   align-self: flex-end;
   color: ${({ theme }) => theme.text};
   font-size: 15px;
+`
+
+const StatContainer = styled.View`
+  flex-direction: row;
+  margin-bottom: 10px;
+`
+
+const StatName = styled.Text`
+  width: ${STAT_NAME_WIDTH}px;
+  padding-right: 10px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.primary};
+  text-align: right;
+`
+
+const StatAmount = styled.View`
+  width: ${({ amount }) => (amount / MAX_STAT_VALUE) * STAT_WIDTH}px;
+  background-color: ${({ theme }) => theme.primary};
+`
+
+const Stat = ({ name, amount }) => (
+  <StatContainer>
+    <StatName>{name}</StatName>
+    <StatAmount amount={amount} />
+  </StatContainer>
+)
+
+const SafeView = styled.SafeAreaView`
+  flex: 1;
+  background-color: ${({ theme }) => theme.primary};
 `
 
 const PokemonDetail = ({ navigation }) => (
@@ -97,28 +134,37 @@ const PokemonDetail = ({ navigation }) => (
         <ThemeProvider
           theme={theme => ({ ...theme[pokemon.types[0]], ...theme })}
         >
-          <Container>
-            <ImageContainer>
-              <Pokeball size="30px" style={{ alignSelf: 'flex-start' }} />
-              <PokemonImage source={{ uri: pokemon.image }} />
-              <Number type={pokemon.types[0]}>{pokemon.number}</Number>
-            </ImageContainer>
-            <Banner>{pokemon.types.join(' / ').toUpperCase()}</Banner>
-            <Box />
-            <Banner>EVOLUTIONS</Banner>
-            <EvolutionContainer>
-              {pokemon.evolutions.map(evolution => (
-                <PokemonCard
-                  key={evolution.id}
-                  pokemon={evolution}
-                  style={{ flex: 1 }}
-                  onPress={() =>
-                    navigation.push('Detail', { pokemon: evolution })
-                  }
-                />
-              ))}
-            </EvolutionContainer>
-          </Container>
+          <SafeView>
+            <Container>
+              <ImageContainer>
+                <Pokeball size="30px" style={{ alignSelf: 'flex-start' }} />
+                <PokemonImage source={{ uri: pokemon.image }} />
+                <Number type={pokemon.types[0]}>{pokemon.number}</Number>
+              </ImageContainer>
+              <Banner>{pokemon.types.join(' / ').toUpperCase()}</Banner>
+              <Box>
+                <Stat name="HP" amount={pokemon.hp} />
+                <Stat name="Attack" amount={pokemon.attack} />
+                <Stat name="Defense" amount={pokemon.defense} />
+                <Stat name="Sp. Atk" amount={pokemon.specialAttack} />
+                <Stat name="Sp. Def" amount={pokemon.specialDefense} />
+                <Stat name="Speed" amount={pokemon.speed} />
+              </Box>
+              <Banner>EVOLUTIONS</Banner>
+              <EvolutionContainer>
+                {pokemon.evolutions.map(evolution => (
+                  <PokemonCard
+                    key={evolution.id}
+                    pokemon={evolution}
+                    style={{ flex: 1 }}
+                    onPress={() =>
+                      navigation.push('Detail', { pokemon: evolution })
+                    }
+                  />
+                ))}
+              </EvolutionContainer>
+            </Container>
+          </SafeView>
         </ThemeProvider>
       )
     }
