@@ -25,6 +25,7 @@ const PokemonList = ({ navigation }) => (
         pokemons {
           id
           ...PokemonCard
+          ...PokemonHeader_pokemon
         }
       }
       ${PokemonCard.fragments.pokemon}

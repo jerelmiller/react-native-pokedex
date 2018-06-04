@@ -1,12 +1,33 @@
 import React from 'react'
 import gql from 'graphql-tag'
+import ScreenLoader from '../components/ScreenLoader'
 import themes from '../lib/themes'
+import { Query } from 'react-apollo'
 import { View, Text } from 'react-native'
 
-const PokemonDetail = () => (
-  <View>
-    <Text>Pokemon</Text>
-  </View>
+const PokemonDetail = ({ navigation }) => (
+  <Query
+    query={gql`
+      query DetailQuery($id: ID!) {
+        pokemon(id: $id) {
+          id
+          name
+          image
+        }
+      }
+    `}
+    variables={{ id: navigation.state.params.pokemon.id }}
+  >
+    {({ loading, data: { pokemon } }) =>
+      loading ? (
+        <ScreenLoader loading={true} />
+      ) : (
+        <View>
+          <Text>Pokemon</Text>
+        </View>
+      )
+    }
+  </Query>
 )
 
 PokemonDetail.navigationOptions = ({
@@ -24,6 +45,7 @@ PokemonDetail.navigationOptions = ({
 PokemonDetail.fragments = {
   pokemonHeader: gql`
     fragment PokemonHeader_pokemon on Pokemon {
+      id
       name
       types
     }
