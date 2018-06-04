@@ -1,6 +1,6 @@
 import React from 'react'
 import client from './config/apollo'
-import PokemonList from './screens/PokemonList'
+import Home from './screens/Home'
 import PokemonDetail from './screens/PokemonDetail'
 import themes from './lib/themes'
 import { ApolloProvider } from 'react-apollo'
@@ -14,7 +14,7 @@ YellowBox.ignoreWarnings([
 ])
 
 const App = createStackNavigator({
-  Home: PokemonList,
+  Home,
   Detail: PokemonDetail
 })
 
