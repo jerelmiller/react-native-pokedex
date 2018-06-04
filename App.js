@@ -1,12 +1,13 @@
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { StackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation'
 import client from './config/apollo'
 import PokemonList from './screens/PokemonList'
 import PokemonDetail from './screens/PokemonDetail'
 import themes from './lib/themes'
 import { ApolloProvider } from 'react-apollo'
 
-const App = StackNavigator({
+const App = createStackNavigator({
   Home: {
     screen: PokemonList,
     navigationOptions: {
