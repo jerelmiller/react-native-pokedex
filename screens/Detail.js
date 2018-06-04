@@ -8,7 +8,25 @@ import { Query } from 'react-apollo'
 import { View, Text } from 'react-native'
 import { rgba } from 'polished'
 
-const Container = styled.View`
+const BannerContainer = styled.View`
+  padding: 15px;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.primary};
+`
+
+const Banner = ({ children }) => (
+  <BannerContainer>
+    <BannerText>{children}</BannerText>
+  </BannerContainer>
+)
+
+const BannerText = styled.Text`
+  text-align: center;
+  font-size: 16px;
+  color: ${({ theme }) => theme.text};
+`
+
+const Container = styled.ScrollView`
   flex: 1;
 `
 
@@ -69,6 +87,7 @@ const PokemonDetail = ({ navigation }) => (
               <PokemonImage source={{ uri: pokemon.image }} />
               <Number type={pokemon.types[0]}>{pokemon.number}</Number>
             </ImageContainer>
+            <Banner>{pokemon.types.join(' / ').toUpperCase()}</Banner>
           </Container>
         </ThemeProvider>
       )
